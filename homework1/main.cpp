@@ -6,20 +6,25 @@
 #include <GL/glut.h>
 #endif
 
+#include <math.h>
+
+#define PI 3.1415926535898
+
 void display(void){
+
+    const float CX = 80.;
+    const float CY = 60.;
+    const float R = 30;
     // Clear all pixels with the specified clear color
     glClear(GL_COLOR_BUFFER_BIT);
 
     // draw the four points in four colors
-    glBegin(GL_POINTS);
-        glColor3f(0., 1., 0.); // green
-        glVertex2f(10., 10.);
-        glColor3f(1., 1., 0.); // yellow
-        glVertex2f(10., 110.);
-        glColor3f(0., 0., 1.); // blue
-        glVertex2f(150., 110.);
-        glColor3f(1., 1., 1.); // white
-        glVertex2f(150., 10.);
+    glBegin(GL_LINE_STRIP);
+        glColor3f(0., 1., 0.);
+        for(int i = 0; i <= 100; i++){
+            float t = ((2 * PI)/100.f) * i;
+            glVertex2f(CX + R * cos(t), CY + R * sin(t));
+        }
     glEnd();
 
     // start flushing OpenGL calls to to display buffer
