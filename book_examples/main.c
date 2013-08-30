@@ -7,15 +7,16 @@
 #endif
 
 #include <math.h>
+#include <windows.h>
 
 #define PI 3.1415926535898
+#define WIDTH 160
+#define HEIGHT 120
 
 void drawCircle(float x, float y, float r, int steps);
 
 void drawPerson(void){
 	glClear(GL_COLOR_BUFFER_BIT);
-
-	// glLoadIdentity();
 
 	glColor3f(1., 0.8, 1.);
 	glBegin(GL_POLYGON);
@@ -61,11 +62,9 @@ void displayCircle(void){
 	const float CX = 80.;
 	const float CY = 60.;
 	const float R = 30;
-
-	// glLoadIdentity();
 	// Clear all pixels with the specified clear color
 	glClear(GL_COLOR_BUFFER_BIT);
-	glTranslatef(10, 10, 0);
+
 	// draw the four points in four colors
 	glBegin(GL_LINE_STRIP);
 		glColor3f(0., 1., 0.);
@@ -84,15 +83,79 @@ void drawCircle(float x, float y, float r, int steps){
 	}
 }
 
+void drawGrid(float w, float h, float inc){
+	glBegin(GL_LINES);
+		for(float y = 0.; y <= h; y += inc){
+			glVertex2f(0., y);
+			glVertex2f(w, y);
+		}
+		for(float x = 0.; x <= w; x += inc){
+			glVertex2f(x, 0);
+			glVertex2f(x, h);
+		}
+	glEnd();
+}
+
+float r = 15;
+float xpos = 80;
+float ypos = 60;
+int ydir = 1;
+
+void displayBall(void){
+	glClear(GL_COLOR_BUFFER_BIT);
+	ypos = ypos + ydir * 1.5;
+	if(ypos >= HEIGHT-r){
+		ydir = -1;
+	}
+	else if(ypos <= r){
+		ydir = 1;
+	}
+	
+
+	// glLoadIdentity();
+	// gluOrtho2D(0., WIDTH, 0., HEIGHT);
+	glPushMatrix();
+
+	glTranslatef(xpos, ypos, 0);
+	glTranslatef(0., r, 0);
+	glScalef(1, 0.8, 1.);
+	glTranslatef(0., -r, 0);
+	glBegin(GL_POLYGON);
+		glColor3f(0.6, 0.8, 0.);
+		drawCircle(0, 0, r, 100);
+	glEnd();
+	glPopMatrix();
+
+	// glScalef(160, 180, 1);
+	
+	// glTranslated(1., 1., 0);
+	// glBegin(GL_POINTS);
+	// 	glVertex2f(0., 0.);
+	// glEnd();
+	// glColor3f(1., 1., 1.);
+	// drawGrid(160, 120, 5);
+	// glRectf(0, 0, 40, 40);
+	glutSwapBuffers();
+	glutPostRedisplay();
+	glFlush();
+	Sleep(40);
+}
+
 void reshape(int w, int h){
+	glViewport(0, 0, w, h);
 	// on reshape and on startup, keep the viewport to be the entire size of the window
 	// set the viewport to be 320 by 240, the initial size of the window
-	glViewport(0, 0, w, h);
-	glMatrixMode(GL_PROJECTION);
+	// glMatrixMode(GL_PROJECTION);
+	// glLoadIdentity();
+	// gluPerspective(45.0f, (float)160 / (float)120, 0.1f, 100.0f);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	
+
 	// keep our world coordinate system constant
 	// Set the 2d clipping area
-	gluOrtho2D(0., 160., 0., 120.);
+	gluOrtho2D(0., WIDTH, 0., HEIGHT);
+
 }
 
 void init(void){
@@ -112,7 +175,7 @@ int main(int argc, char** argv){
 	glutInitWindowSize(320, 240);
 	glutCreateWindow("My First OpenGL Window");
 	init();
-	glutDisplayFunc(displayCircle);
+	glutDisplayFunc(displayBall);
 	glutReshapeFunc(reshape);
 	glutMainLoop();
 	return 0;

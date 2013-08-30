@@ -15,8 +15,6 @@ void drawCircle(float x, float y, float r, int steps);
 void drawPerson(void){
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	// glLoadIdentity();
-
 	glColor3f(1., 0.8, 1.);
 	glBegin(GL_POLYGON);
 		drawCircle(80., 85., 10., 100);
@@ -61,11 +59,9 @@ void displayCircle(void){
 	const float CX = 80.;
 	const float CY = 60.;
 	const float R = 30;
-
-	// glLoadIdentity();
 	// Clear all pixels with the specified clear color
 	glClear(GL_COLOR_BUFFER_BIT);
-	glTranslatef(10, 10, 0);
+
 	// draw the four points in four colors
 	glBegin(GL_LINE_STRIP);
 		glColor3f(0., 1., 0.);
@@ -112,7 +108,7 @@ int main(int argc, char** argv){
 	glutInitWindowSize(320, 240);
 	glutCreateWindow("My First OpenGL Window");
 	init();
-	glutDisplayFunc(displayCircle);
+	glutDisplayFunc(drawPerson);
 	glutReshapeFunc(reshape);
 	glutMainLoop();
 	return 0;
