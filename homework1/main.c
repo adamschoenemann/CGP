@@ -93,6 +93,18 @@ void reshape(int w, int h){
 	// keep our world coordinate system constant
 	// Set the 2d clipping area
 	gluOrtho2D(0., 160., 0., 120.);
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void draw(void){
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glColor3f(0., 1., 0.);
+	
+	glutWireCube(50);
+
+	glutPostRedisplay();
+	glFlush();
 }
 
 void init(void){
@@ -112,7 +124,7 @@ int main(int argc, char** argv){
 	glutInitWindowSize(320, 240);
 	glutCreateWindow("My First OpenGL Window");
 	init();
-	glutDisplayFunc(displayCircle);
+	glutDisplayFunc(draw);
 	glutReshapeFunc(reshape);
 	glutMainLoop();
 	return 0;

@@ -25,7 +25,7 @@ void draw(){
     glPushMatrix();
     
     // Translate the object forward, so it can be seen by the camera
-    glTranslatef(0, 0, -10);
+    glTranslatef(0, 0, -30);
     
     // Draw the cube defined in the data structure
     glColor3f(1, 1, 1);
@@ -39,7 +39,7 @@ void draw(){
 
     // Draw the backbuffer on the screen
     glutSwapBuffers();
-
+    gl
 
 }
 
